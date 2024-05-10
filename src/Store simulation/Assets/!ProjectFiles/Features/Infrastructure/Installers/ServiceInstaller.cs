@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Services.AssetsAddressables;
 using Infrastructure.Services.CoroutineRunner;
+using Infrastructure.Services.DataBase;
 using Infrastructure.Services.Factory.UIFactory;
 using Infrastructure.Services.Input;
 using Infrastructure.Services.Progress.Progress;
@@ -19,12 +20,14 @@ namespace Infrastructure.Installers
         {
             BindAssetsAddressables();
             BindCoroutineRunner();
+            BindDataBase();
             BindFactory();
             BindInput();
             BindProgress();
             BindSounds();
             BindWindow();
         }
+
 
         private void BindAssetsAddressables()
         {
@@ -34,6 +37,11 @@ namespace Infrastructure.Installers
         private void BindCoroutineRunner()
         {
             Container.Bind<ICoroutineRunner>().FromInstance(this);
+        }
+
+        private void BindDataBase()
+        {
+            Container.Bind<ReadyData>().AsSingle();
         }
 
         private void BindFactory()

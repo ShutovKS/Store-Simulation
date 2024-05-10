@@ -3,9 +3,10 @@ using System;
 namespace Data
 {
     [Serializable]
-    public class ProductCategory
+    public class ProductList
     {
         public int id;
-        public string name;
+        public int productId;
+        public int count;
     }
 }

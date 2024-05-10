@@ -91,36 +91,4 @@ namespace Infrastructure.ProjectStateMachine.Core
             else throw new StateNotFoundException($"{typeof(TState)} состояние не найдено в state machine.");
         }
     }
-
-    public class StateNotFoundException : Exception
-    {
-        public StateNotFoundException(string message) : base(message)
-        {
-        }
-    }
-
-    public interface IState<out TInitializer>
-    {
-        TInitializer Initializer { get; }
-    }
-
-    public interface IEnterable
-    {
-        void OnEnter();
-    }
-
-    public interface IEnterableWithArg<in TArg>
-    {
-        void OnEnter(TArg arg0);
-    }
-
-    public interface IExitable
-    {
-        void OnExit();
-    }
-
-    public interface ITickable
-    {
-        void OnUpdate();
-    }
 }
