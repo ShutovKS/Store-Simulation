@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Infrastructure.ProjectStateMachine.Core
 {
@@ -81,6 +82,8 @@ namespace Infrastructure.ProjectStateMachine.Core
 
         private void ChangeState<TState>() where TState : IState<TInitializer>
         {
+            Debug.Log(typeof(TState));
+            
             if (_states.TryGetValue(typeof(TState), out var state))
             {
                 _currentState = state;

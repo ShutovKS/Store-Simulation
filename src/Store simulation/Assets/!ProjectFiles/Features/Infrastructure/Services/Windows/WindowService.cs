@@ -4,7 +4,7 @@ using Infrastructure.Services.AssetsAddressables;
 using Infrastructure.Services.Factory.UIFactory;
 using UnityEngine;
 
-namespace Infrastructure.Services.WindowsService
+namespace Infrastructure.Services.Windows
 {
     public class WindowService : IWindowService
     {

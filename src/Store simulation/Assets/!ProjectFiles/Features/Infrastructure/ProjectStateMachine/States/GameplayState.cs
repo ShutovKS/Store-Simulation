@@ -1,6 +1,6 @@
 ﻿using Infrastructure.ProjectStateMachine.Core;
 using Infrastructure.Services.AssetsAddressables;
-using Infrastructure.Services.WindowsService;
+using Infrastructure.Services.Windows;
 using UnityEngine.AddressableAssets;
 
 namespace Infrastructure.ProjectStateMachine.States
@@ -22,8 +22,7 @@ namespace Infrastructure.ProjectStateMachine.States
 
         public void OnEnter(bool isTest)
         {
-            var sceneForLoad =
-                isTest ? AssetsAddressableConstants.FEATURE_TEST_SCENE : AssetsAddressableConstants.GAMEPLAY_SCENE;
+            var sceneForLoad = isTest ? AssetsAddressableConstants.EMPTY_2D_SCENE : AssetsAddressableConstants.EMPTY_2D_SCENE;
 
             var asyncOperation = Addressables.LoadSceneAsync(sceneForLoad);
 

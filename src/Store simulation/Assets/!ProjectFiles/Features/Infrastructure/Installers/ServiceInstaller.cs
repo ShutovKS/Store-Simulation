@@ -4,8 +4,8 @@ using Infrastructure.Services.Factory.UIFactory;
 using Infrastructure.Services.Input;
 using Infrastructure.Services.Progress.Progress;
 using Infrastructure.Services.Progress.SaveLoad;
-using Infrastructure.Services.SoundsService;
-using Infrastructure.Services.WindowsService;
+using Infrastructure.Services.Sounds;
+using Infrastructure.Services.Windows;
 using UnityEngine;
 using Zenject;
 
@@ -17,54 +17,49 @@ namespace Infrastructure.Installers
 
         public override void InstallBindings()
         {
-            BindCurrentProgressService();
-            BindUIFactory();
-            BindAssetsAddressableService();
-            BindPlayerInputActionReader();
-            BindWindowService();
-            BindCoroutineRunnerService();
-            BindSaveLoadService();
-            BindSoundsService();
+            BindAssetsAddressables();
+            BindCoroutineRunner();
+            BindFactory();
+            BindInput();
+            BindProgress();
+            BindSounds();
+            BindWindow();
         }
 
-        private void BindSoundsService()
-        {
-            Container.BindInterfacesTo<SoundService>().AsSingle();
-        }
-
-        private void BindSaveLoadService()
-        {
-            Container.BindInterfacesTo<SaveLoadService>().AsSingle();
-        }
-
-        private void BindCurrentProgressService()
-        {
-            Container.BindInterfacesTo<CurrentProgressService>().AsSingle();
-        }
-
-        private void BindWindowService()
-        {
-            Container.BindInterfacesTo<WindowService>().AsSingle();
-        }
-
-        private void BindAssetsAddressableService()
+        private void BindAssetsAddressables()
         {
             Container.BindInterfacesTo<AssetsAddressablesProvider>().AsSingle();
         }
 
-        private void BindPlayerInputActionReader()
+        private void BindCoroutineRunner()
         {
-            Container.Bind<PlayerInputActionReader>().FromInstance(playerInputActionReader).AsSingle();
+            Container.Bind<ICoroutineRunner>().FromInstance(this);
         }
 
-        private void BindUIFactory()
+        private void BindFactory()
         {
             Container.BindInterfacesTo<UIFactory>().AsSingle();
         }
 
-        private void BindCoroutineRunnerService()
+        private void BindInput()
         {
-            Container.Bind<ICoroutineRunner>().FromInstance(this);
+            Container.Bind<PlayerInputActionReader>().FromInstance(playerInputActionReader).AsSingle();
+        }
+
+        private void BindProgress()
+        {
+            Container.BindInterfacesTo<CurrentProgressService>().AsSingle();
+            Container.BindInterfacesTo<SaveLoadService>().AsSingle();
+        }
+
+        private void BindSounds()
+        {
+            Container.BindInterfacesTo<SoundService>().AsSingle();
+        }
+
+        private void BindWindow()
+        {
+            Container.BindInterfacesTo<WindowService>().AsSingle();
         }
     }
 }

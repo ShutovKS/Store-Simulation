@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Services.SoundsService
+﻿namespace Infrastructure.Services.Sounds
 {
     public interface ISoundService
     {

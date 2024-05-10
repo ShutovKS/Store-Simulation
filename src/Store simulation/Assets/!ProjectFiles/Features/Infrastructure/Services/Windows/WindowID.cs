@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Services.WindowsService
+﻿namespace Infrastructure.Services.Windows
 {
     public enum WindowID
     {

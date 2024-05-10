@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Infrastructure.Services.WindowsService;
+using Infrastructure.Services.Windows;
 using UnityEngine;
 
 namespace Infrastructure.Services.Factory.UIFactory

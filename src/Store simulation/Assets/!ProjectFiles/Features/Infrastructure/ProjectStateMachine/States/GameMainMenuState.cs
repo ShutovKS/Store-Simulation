@@ -1,6 +1,6 @@
 ﻿using Infrastructure.ProjectStateMachine.Core;
 using Infrastructure.Services.AssetsAddressables;
-using Infrastructure.Services.WindowsService;
+using Infrastructure.Services.Windows;
 using UI.MainMenuScreen.Scripts;
 using UnityEngine.AddressableAssets;
 
@@ -20,7 +20,7 @@ namespace Infrastructure.ProjectStateMachine.States
 
         public void OnEnter()
         {
-            var asyncOperation = Addressables.LoadSceneAsync(AssetsAddressableConstants.MAIN_MENU_SCENE);
+            var asyncOperation = Addressables.LoadSceneAsync(AssetsAddressableConstants.EMPTY_2D_SCENE);
 
             asyncOperation.Completed += _ => { OpenMainMenuWindow(); };
         }

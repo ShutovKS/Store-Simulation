@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Infrastructure.Services.AssetsAddressables;
-using Infrastructure.Services.WindowsService;
+using Infrastructure.Services.Windows;
 using UnityEngine;
 using Zenject;
 using Object = UnityEngine.Object;

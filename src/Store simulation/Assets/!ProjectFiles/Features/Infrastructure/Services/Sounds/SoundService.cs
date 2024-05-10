@@ -2,7 +2,7 @@
 using Firebase.Analytics;
 #endif
 
-namespace Infrastructure.Services.SoundsService
+namespace Infrastructure.Services.Sounds
 {
     public class SoundService : ISoundService
     {
