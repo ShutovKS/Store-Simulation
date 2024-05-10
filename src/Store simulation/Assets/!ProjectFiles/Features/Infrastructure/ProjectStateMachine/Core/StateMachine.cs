@@ -41,7 +41,7 @@ namespace Infrastructure.ProjectStateMachine.Core
         {
             _cancellationTick.Cancel();
 
-            if (_currentState is IExit state)
+            if (_currentState is IExitable state)
             {
                 state.OnExit();
             }
@@ -111,7 +111,7 @@ namespace Infrastructure.ProjectStateMachine.Core
         void OnEnter(TArg arg0);
     }
 
-    public interface IExit
+    public interface IExitable
     {
         void OnExit();
     }

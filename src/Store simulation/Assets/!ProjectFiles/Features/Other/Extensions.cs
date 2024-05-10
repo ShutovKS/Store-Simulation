@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using Infrastructure.Services.DynamicData;
+using Infrastructure.Services.Progress;
 using UnityEngine;
 
 namespace Other
