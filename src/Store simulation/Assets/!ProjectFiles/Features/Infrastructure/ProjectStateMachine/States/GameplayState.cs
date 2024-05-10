@@ -22,7 +22,9 @@ namespace Infrastructure.ProjectStateMachine.States
 
         public void OnEnter(bool isTest)
         {
-            var sceneForLoad = isTest ? AssetsAddressableConstants.EMPTY_2D_SCENE : AssetsAddressableConstants.EMPTY_2D_SCENE;
+            var sceneForLoad = isTest
+                ? AssetsAddressableConstants.EMPTY_2D_SCENE
+                : AssetsAddressableConstants.EMPTY_2D_SCENE;
 
             var asyncOperation = Addressables.LoadSceneAsync(sceneForLoad);
 
