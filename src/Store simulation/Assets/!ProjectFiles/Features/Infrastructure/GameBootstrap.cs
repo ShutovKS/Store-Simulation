@@ -11,7 +11,7 @@ namespace Infrastructure
             IAssetsAddressablesProvider assetsAddressablesProvider)
         {
             StateMachine = new StateMachine<GameBootstrap>(new BootstrapState(this),
-                new InitializationState(this),
+                new InitializationState(this, assetsAddressablesProvider),
                 new ResourcesLoadingState(this, windowService),
                 new GameMainMenuState(this, windowService),
                 new GameplayState(this, windowService, assetsAddressablesProvider)

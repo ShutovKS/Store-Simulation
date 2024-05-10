@@ -1,16 +1,13 @@
 ﻿using Infrastructure.ProjectStateMachine.Core;
 using Infrastructure.Services.AssetsAddressables;
 using Infrastructure.Services.Windows;
+using UniRx;
 using UnityEngine.AddressableAssets;
 
 namespace Infrastructure.ProjectStateMachine.States
 {
-    public class GameplayState : IState<GameBootstrap>, IEnterableWithArg<bool>, IExitable
+    public class GameplayState : IState<GameBootstrap>, IEnterable, IExitable
     {
-        public GameBootstrap Initializer { get; }
-        private readonly IWindowService _windowService;
-        private readonly IAssetsAddressablesProvider _assetsAddressablesProvider;
-
         public GameplayState(GameBootstrap initializer,
             IWindowService windowService,
             IAssetsAddressablesProvider assetsAddressablesProvider)
@@ -20,31 +17,27 @@ namespace Infrastructure.ProjectStateMachine.States
             _assetsAddressablesProvider = assetsAddressablesProvider;
         }
 
-        public void OnEnter(bool isTest)
+        public GameBootstrap Initializer { get; }
+        private readonly IWindowService _windowService;
+        private readonly IAssetsAddressablesProvider _assetsAddressablesProvider;
+        private readonly CompositeDisposable _disposable = new();
+
+        public void OnEnter()
         {
-            var sceneForLoad = isTest
-                ? AssetsAddressableConstants.EMPTY_2D_SCENE
-                : AssetsAddressableConstants.EMPTY_2D_SCENE;
-
-            var asyncOperation = Addressables.LoadSceneAsync(sceneForLoad);
-
-            asyncOperation.Completed += _ => { OpenGameplayWindow(); };
+            var asyncOperation = Addressables.LoadSceneAsync(AssetsAddressableConstants.EMPTY_2D_SCENE);
+            asyncOperation.ToObservable().Subscribe(_ => OpenGameplayWindow()).AddTo(_disposable);
         }
 
-        private async void OpenGameplayWindow()
+        private void OpenGameplayWindow()
         {
-            await _windowService.Open(WindowID.Gameplay);
-
-            CloseLoadingWindow();
-        }
-
-        private void CloseLoadingWindow()
-        {
+            _windowService.Open(WindowID.Gameplay);
             _windowService.Close(WindowID.Loading);
         }
 
         public void OnExit()
         {
+            _windowService.Open(WindowID.Loading);
+            _windowService.Close(WindowID.Gameplay);
         }
     }
 }

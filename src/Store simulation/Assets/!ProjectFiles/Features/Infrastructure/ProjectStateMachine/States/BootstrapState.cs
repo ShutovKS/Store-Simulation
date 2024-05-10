@@ -5,12 +5,12 @@ namespace Infrastructure.ProjectStateMachine.States
 {
     public class BootstrapState : IState<GameBootstrap>, IInitializable
     {
-        public GameBootstrap Initializer { get; }
-
         public BootstrapState(GameBootstrap initializer)
         {
             Initializer = initializer;
         }
+
+        public GameBootstrap Initializer { get; }
 
         public void Initialize()
         {

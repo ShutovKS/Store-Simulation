@@ -5,20 +5,21 @@ namespace Infrastructure.ProjectStateMachine.States
 {
     public class ResourcesLoadingState : IState<GameBootstrap>, IEnterable
     {
-        private readonly IWindowService windowService;
-        public GameBootstrap Initializer { get; }
-
-        public ResourcesLoadingState(GameBootstrap initializer,
-            IWindowService windowService)
+        public ResourcesLoadingState(GameBootstrap initializer, IWindowService windowService)
         {
-            this.windowService = windowService;
+            _windowService = windowService;
             Initializer = initializer;
         }
 
+        private readonly IWindowService _windowService;
+        public GameBootstrap Initializer { get; }
+
         public async void OnEnter()
         {
-            await windowService.Open(WindowID.Loading);
+            await _windowService.Open(WindowID.Loading);
 
+            LoadResources();
+            
             Initializer.StateMachine.SwitchState<GameMainMenuState>();
         }
 
