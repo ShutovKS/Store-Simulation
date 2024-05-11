@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace Infrastructure.ProjectStateMachine.Core
 {
@@ -27,7 +26,7 @@ namespace Infrastructure.ProjectStateMachine.Core
             ExitCurrentState();
             ChangeState<TState>();
             EnterNewState();
-            Tick().Forget();
+            Tick();
         }
 
         public void SwitchState<TState, TParameter>(TParameter arg0) where TState : IState<TInitializer>
@@ -35,7 +34,7 @@ namespace Infrastructure.ProjectStateMachine.Core
             ExitCurrentState();
             ChangeState<TState>();
             EnterNewState(arg0);
-            Tick().Forget();
+            Tick();
         }
 
         private void ExitCurrentState()
@@ -75,15 +74,21 @@ namespace Infrastructure.ProjectStateMachine.Core
 
             while (!_cancellationTick.Token.IsCancellationRequested)
             {
-                state.OnUpdate();
+                try
+                {
+                    state.OnUpdate();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"[StateMachine] Tick: " + e);
+                }
+
                 await UniTask.Yield();
             }
         }
 
         private void ChangeState<TState>() where TState : IState<TInitializer>
         {
-            Debug.Log(typeof(TState));
-            
             if (_states.TryGetValue(typeof(TState), out var state))
             {
                 _currentState = state;
