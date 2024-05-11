@@ -31,7 +31,12 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 93e6f89281fe85d48a55443c0a25234b
-    m_Address: Empty2D
+    m_Address: Empty2DScene
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fbadc8c65732ef24fb3a5cdbffa3a7b6
+    m_Address: GameplayScene
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
