@@ -1,6 +1,5 @@
 ﻿using Infrastructure.ProjectStateMachine.Core;
 using Infrastructure.Services.AssetsAddressables;
-using Infrastructure.Services.Progress;
 
 namespace Infrastructure.ProjectStateMachine.States
 {

@@ -1563,7 +1563,7 @@ GameObject:
   - component: {fileID: 369150482809811417}
   - component: {fileID: 6286386529822206572}
   m_Layer: 5
-  m_Name: ShopScreen
+  m_Name: MarketScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1665,11 +1665,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab21e897f7d4caba0c76619d179d1df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  balance: {fileID: 4401783396204482265}
-  earned: {fileID: 1928443702973451855}
-  spent: {fileID: 5941154247656486550}
-  productCount: {fileID: 645887447962546313}
-  buyerCount: {fileID: 7355413249377337340}
+  <Balance>k__BackingField: {fileID: 4401783396204482265}
+  <Earned>k__BackingField: {fileID: 1928443702973451855}
+  <Spent>k__BackingField: {fileID: 5941154247656486550}
+  <ProductCount>k__BackingField: {fileID: 645887447962546313}
+  <BuyerCount>k__BackingField: {fileID: 7355413249377337340}
 --- !u!1 &8652803900741038563
 GameObject:
   m_ObjectHideFlags: 0

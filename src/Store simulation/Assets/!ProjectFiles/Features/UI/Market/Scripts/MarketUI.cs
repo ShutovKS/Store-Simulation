@@ -6,12 +6,12 @@ namespace UI.Market.Scripts
     public class MarketUI : MonoBehaviour
     {
         public static MarketUI Instance { get; private set; }
-        
-        [SerializeField] private TextMeshProUGUI balance;
-        [SerializeField] private TextMeshProUGUI earned;
-        [SerializeField] private TextMeshProUGUI spent;
-        [SerializeField] private TextMeshProUGUI productCount;
-        [SerializeField] private TextMeshProUGUI buyerCount;
+
+        [field: SerializeField] public TextMeshProUGUI Balance { get; private set; }
+        [field: SerializeField] public TextMeshProUGUI Earned { get; private set; }
+        [field: SerializeField] public TextMeshProUGUI Spent { get; private set; }
+        [field: SerializeField] public TextMeshProUGUI ProductCount { get; private set; }
+        [field: SerializeField] public TextMeshProUGUI BuyerCount { get; private set; }
 
         private void Awake()
         {

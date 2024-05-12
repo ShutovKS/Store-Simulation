@@ -1,10 +1,9 @@
 using System;
 
-namespace Data
+namespace Data.ForBD
 {
     [Serializable]
     public class Employee
-
     {
         public int id;
         public string name;

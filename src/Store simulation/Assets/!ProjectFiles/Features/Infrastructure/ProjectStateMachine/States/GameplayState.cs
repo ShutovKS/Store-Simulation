@@ -1,33 +1,43 @@
 ﻿using Infrastructure.ProjectStateMachine.Core;
 using Infrastructure.Services.AssetsAddressables;
+using Infrastructure.Services.DataBase;
 using Infrastructure.Services.Windows;
-using UniRx;
+using Market;
+using UI.Market.Scripts;
 using UnityEngine.AddressableAssets;
+using UniRx;
 
 namespace Infrastructure.ProjectStateMachine.States
 {
     public class GameplayState : IState<GameBootstrap>, IEnterable, IExitable
     {
-        public GameplayState(GameBootstrap initializer,
-            IWindowService windowService,
-            IAssetsAddressablesProvider assetsAddressablesProvider)
+        public GameplayState(GameBootstrap initializer, IWindowService windowService, IDataBaseService dataBaseService)
         {
             Initializer = initializer;
             _windowService = windowService;
-            _assetsAddressablesProvider = assetsAddressablesProvider;
+            _dataBaseService = dataBaseService;
         }
 
         public GameBootstrap Initializer { get; }
         private readonly IWindowService _windowService;
-        private readonly IAssetsAddressablesProvider _assetsAddressablesProvider;
+        private readonly IDataBaseService _dataBaseService;
         private readonly CompositeDisposable _disposable = new();
+
+        private MarketCore _marketCore;
 
         public void OnEnter()
         {
-            var asyncOperation = Addressables.LoadSceneAsync(AssetsAddressableConstants.EMPTY_2D_SCENE);
-            asyncOperation.ToObservable().Subscribe(_ => OpenGameplayWindow()).AddTo(_disposable);
+            var asyncOperation = Addressables.LoadSceneAsync(AssetsAddressableConstants.GAMEPLAY_SCENE);
+            asyncOperation.ToObservable().Subscribe(_ => SimulationInitialization()).AddTo(_disposable);
         }
 
+        private void SimulationInitialization()
+        {
+            OpenGameplayWindow();
+            
+            _marketCore = new MarketCore(MarketUI.Instance, null, _disposable);
+        }
+        
         private void OpenGameplayWindow()
         {
             _windowService.Open(WindowID.Gameplay);
