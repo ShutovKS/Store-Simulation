@@ -27,12 +27,12 @@ namespace Infrastructure.Services.Factory.NpcFactory
             var instantiate = _container.InstantiatePrefab(prefab);
             instantiate.transform.position = gameplaySceneData.NpcSpawnPoint;
 
-            var npcController = new NpcController(instantiate, gameplaySceneData);
+            var npcController = new NpcController(instantiate, gameplaySceneData, this);
 
             _npsControllers.Add(npcController, instantiate);
         }
 
-        public void Remove(NpcController npcController)
+        public void DestroyNpc(NpcController npcController)
         {
             if (_npsControllers.Remove(npcController, out var instance))
             {

@@ -18,3 +18,5 @@ MonoBehaviour:
   - {x: -19, y: 0, z: 2}
   - {x: -19, y: 0, z: 7}
   - {x: -19, y: 0, z: 11}
+  <CashRegisterPoint>k__BackingField: {x: 7, y: 0, z: -12}
+  <ExitPoint>k__BackingField: {x: -3.3, y: 0, z: -18}

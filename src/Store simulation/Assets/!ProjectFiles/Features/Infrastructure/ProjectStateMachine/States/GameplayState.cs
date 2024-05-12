@@ -29,7 +29,7 @@ namespace Infrastructure.ProjectStateMachine.States
         private readonly INpcFactory _npcFactory;
         private readonly GameplaySceneData _gameplaySceneData;
         private readonly CompositeDisposable _disposable = new();
-        
+
         private MarketCore _marketCore;
 
         public void OnEnter()
@@ -43,7 +43,7 @@ namespace Infrastructure.ProjectStateMachine.States
             OpenGameplayWindow();
 
             _marketCore = new MarketCore(MarketUI.Instance, null, _disposable);
-            
+
             _npcFactory.Spawn(_gameplaySceneData);
         }
 

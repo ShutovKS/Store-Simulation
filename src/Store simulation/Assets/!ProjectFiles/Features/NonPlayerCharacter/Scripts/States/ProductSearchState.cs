@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 namespace NonPlayerCharacter.States
 {
-    public class ProductSearchState : IState<NpcController>, IEnterable, IExitable, ITickable
+    public class ProductSearchState : IState<NpcController>, IEnterable, ITickable
     {
         public ProductSearchState(NpcController initializer, GameObject instantiate, Vector3[] groceryOutletPoints)
         {
@@ -24,12 +24,17 @@ namespace NonPlayerCharacter.States
         {
             _agent = _instantiate.GetComponent<NavMeshAgent>();
             _transform = _instantiate.transform;
-            
+
             MoveForProduct();
         }
 
-        public void OnExit()
+        public void OnUpdate()
         {
+            var distanceToTarget = Vector3.Distance(_transform.position, _target);
+            if (distanceToTarget < 1)
+            {
+                ShoppingComplete();
+            }
         }
 
         private void MoveForProduct()
@@ -38,13 +43,9 @@ namespace NonPlayerCharacter.States
             _agent.SetDestination(_target);
         }
 
-        public void OnUpdate()
+        private void ShoppingComplete()
         {
-            var distanceToTarget = Vector3.Distance(_transform.position, _target);
-            if (distanceToTarget < 1)
-            {
-                MoveForProduct();
-            }
+            Initializer.StateMachine.SwitchState<ProductPurchaseState>();
         }
     }
 }

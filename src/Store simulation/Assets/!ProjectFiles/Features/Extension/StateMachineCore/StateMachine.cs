@@ -36,6 +36,11 @@ namespace Extension.StateMachineCore
             EnterNewState(arg0);
             Tick();
         }
+        
+        public void TickStop()
+        {
+            _cancellationTick.Cancel();
+        }
 
         private void ExitCurrentState()
         {
