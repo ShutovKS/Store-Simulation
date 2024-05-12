@@ -28,19 +28,16 @@ namespace Infrastructure.Services.Factory.UIFactory
             var screenPrefab = await _assetsAddressablesProvider.GetAsset<GameObject>(assetAddress);
             var screenObject = _container.InstantiatePrefab(screenPrefab);
 
-            if (_screenTypeToInstanceMap.ContainsKey(windowId))
+            if (_screenTypeToInstanceMap.TryAdd(windowId, screenObject))
             {
-                Debug.LogWarning(
-                    $"A screen with WindowID {windowId} already exists. Replacing the existing screen object.");
-
-                Object.Destroy(_screenTypeToInstanceMap[windowId]);
-
-                _screenTypeToInstanceMap[windowId] = screenObject;
+                return screenObject;
             }
-            else
-            {
-                _screenTypeToInstanceMap.Add(windowId, screenObject);
-            }
+
+            Debug.LogWarning($"Экран с WindowID {windowId} уже существует. Замена существующего.");
+
+            Object.Destroy(_screenTypeToInstanceMap[windowId]);
+
+            _screenTypeToInstanceMap[windowId] = screenObject;
 
             return screenObject;
         }
@@ -53,28 +50,29 @@ namespace Infrastructure.Services.Factory.UIFactory
 
                 if (screenComponent == null)
                 {
-                    Debug.LogError($"Screen component of type {typeof(T)} not found");
+                    Debug.LogError($"Экранный компонент типа {typeof(T)} не найден");
+
                     return Task.FromResult<T>(null);
                 }
 
                 _screenTypeToComponentMap[typeof(T)] = screenComponent;
+
                 return Task.FromResult(screenComponent);
             }
 
-            Debug.LogError($"Screen with WindowID {windowId} not found");
+            Debug.LogError($"Экран с WindowID {windowId} не найден");
             return Task.FromResult<T>(null);
         }
 
         public void DestroyScreen(WindowID windowId)
         {
-            if (_screenTypeToInstanceMap.TryGetValue(windowId, out var screenObject))
+            if (_screenTypeToInstanceMap.Remove(windowId, out var screenObject))
             {
-                _screenTypeToInstanceMap.Remove(windowId);
                 Object.Destroy(screenObject);
             }
             else
             {
-                Debug.LogError($"Screen with WindowID {windowId} not found");
+                Debug.LogError($"Экран с WindowID {windowId} не найден");
             }
         }
     }

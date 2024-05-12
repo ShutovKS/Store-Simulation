@@ -1,7 +1,9 @@
-﻿using Extension.StateMachineCore;
+﻿using Data.Scene;
+using Extension.StateMachineCore;
 using Infrastructure.ProjectStateMachine.States;
 using Infrastructure.Services.AssetsAddressables;
 using Infrastructure.Services.DataBase;
+using Infrastructure.Services.Factory.NpcFactory;
 using Infrastructure.Services.Windows;
 
 namespace Infrastructure
@@ -11,14 +13,16 @@ namespace Infrastructure
         public GameBootstrap(
             IAssetsAddressablesProvider assetsAddressablesProvider,
             IDataBaseService dataBaseService,
-            IWindowService windowService
+            INpcFactory npcFactory,
+            IWindowService windowService,
+            GameplaySceneData gameplaySceneData
         )
         {
             StateMachine = new StateMachine<GameBootstrap>(new BootstrapState(this),
                 new InitializationState(this, assetsAddressablesProvider),
                 new ResourcesLoadingState(this, windowService),
                 new GameMainMenuState(this, windowService),
-                new GameplayState(this, windowService, dataBaseService)
+                new GameplayState(this, windowService, dataBaseService, npcFactory, gameplaySceneData)
             );
 
             StateMachine.SwitchState<BootstrapState>();

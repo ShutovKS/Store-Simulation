@@ -8,5 +8,7 @@
 
         public const string EMPTY_2D_SCENE = "Empty2DScene";
         public const string GAMEPLAY_SCENE = "GameplayScene";
+
+        public const string NPC_PREFAB = "NonPlayerCharacterPrefab";
     }
 }

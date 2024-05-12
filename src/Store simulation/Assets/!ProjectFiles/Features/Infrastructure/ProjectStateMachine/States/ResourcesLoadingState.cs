@@ -1,4 +1,5 @@
-﻿using Extension.StateMachineCore;
+﻿using Data.Scene;
+using Extension.StateMachineCore;
 using Infrastructure.Services.Windows;
 
 namespace Infrastructure.ProjectStateMachine.States
@@ -20,7 +21,8 @@ namespace Infrastructure.ProjectStateMachine.States
 
             LoadResources();
             
-            Initializer.StateMachine.SwitchState<GameMainMenuState>();
+            // Initializer.StateMachine.SwitchState<GameMainMenuState>();
+            Initializer.StateMachine.SwitchState<GameplayState>();
         }
 
         private void LoadResources()
