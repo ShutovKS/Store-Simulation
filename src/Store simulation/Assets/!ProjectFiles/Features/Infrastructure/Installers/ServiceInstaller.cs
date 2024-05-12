@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Services.AssetsAddressables;
 using Infrastructure.Services.CoroutineRunner;
 using Infrastructure.Services.DataBase;
+using Infrastructure.Services.Factory.NpcFactory;
 using Infrastructure.Services.Factory.UIFactory;
 using Infrastructure.Services.Input;
 using Infrastructure.Services.Progress.Progress;
@@ -28,7 +29,6 @@ namespace Infrastructure.Installers
             BindWindow();
         }
 
-
         private void BindAssetsAddressables()
         {
             Container.BindInterfacesTo<AssetsAddressablesProvider>().AsSingle();
@@ -41,11 +41,12 @@ namespace Infrastructure.Installers
 
         private void BindDataBase()
         {
-            Container.Bind<ReadyData>().AsSingle();
+            Container.BindInterfacesTo<ReadyData>().AsSingle();
         }
 
         private void BindFactory()
         {
+            Container.BindInterfacesTo<NpcFactory>().AsSingle();
             Container.BindInterfacesTo<UIFactory>().AsSingle();
         }
 
