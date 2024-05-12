@@ -1,6 +1,6 @@
 using System;
 
-namespace Infrastructure.ProjectStateMachine.Core
+namespace Extension.StateMachineCore
 {
     public class StateNotFoundException : Exception
     {

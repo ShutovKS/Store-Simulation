@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Other
+namespace Extension
 {
     public class BaseConfig : ScriptableObject { }
 }

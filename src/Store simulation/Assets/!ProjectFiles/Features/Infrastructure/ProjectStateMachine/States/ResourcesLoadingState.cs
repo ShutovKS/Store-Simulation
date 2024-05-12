@@ -1,4 +1,4 @@
-﻿using Infrastructure.ProjectStateMachine.Core;
+﻿using Extension.StateMachineCore;
 using Infrastructure.Services.Windows;
 
 namespace Infrastructure.ProjectStateMachine.States

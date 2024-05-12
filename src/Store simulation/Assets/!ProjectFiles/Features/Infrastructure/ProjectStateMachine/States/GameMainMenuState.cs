@@ -1,4 +1,4 @@
-﻿using Infrastructure.ProjectStateMachine.Core;
+﻿using Extension.StateMachineCore;
 using Infrastructure.Services.AssetsAddressables;
 using Infrastructure.Services.Windows;
 using UI.MainMenuScreen.Scripts;

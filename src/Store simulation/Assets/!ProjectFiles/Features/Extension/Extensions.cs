@@ -3,7 +3,7 @@ using System.Text;
 using Infrastructure.Services.Progress;
 using UnityEngine;
 
-namespace Other
+namespace Extension
 {
     public static class Extensions
     {

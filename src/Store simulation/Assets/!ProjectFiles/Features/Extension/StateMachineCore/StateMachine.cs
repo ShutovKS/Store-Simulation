@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace Infrastructure.ProjectStateMachine.Core
+namespace Extension.StateMachineCore
 {
     public class StateMachine<TInitializer>
     {

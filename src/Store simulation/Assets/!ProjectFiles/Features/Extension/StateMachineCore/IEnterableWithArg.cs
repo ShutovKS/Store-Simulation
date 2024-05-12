@@ -1,4 +1,4 @@
-namespace Infrastructure.ProjectStateMachine.Core
+namespace Extension.StateMachineCore
 {
     public interface IEnterableWithArg<in TArg>
     {

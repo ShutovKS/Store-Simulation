@@ -1,4 +1,4 @@
-﻿using Infrastructure.ProjectStateMachine.Core;
+﻿using Extension.StateMachineCore;
 using Infrastructure.ProjectStateMachine.States;
 using Infrastructure.Services.AssetsAddressables;
 using Infrastructure.Services.DataBase;

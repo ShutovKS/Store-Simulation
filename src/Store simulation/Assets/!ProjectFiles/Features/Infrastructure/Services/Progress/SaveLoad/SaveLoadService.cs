@@ -2,8 +2,8 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Extension;
 using Infrastructure.Services.Progress.Progress;
-using Other;
 using UnityEngine;
 
 namespace Infrastructure.Services.Progress.SaveLoad
