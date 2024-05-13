@@ -4,6 +4,7 @@ namespace Infrastructure.Services.Market
     {
         MarketData MarketData { get; }
 
+        void Purchase();
         void PurchaseByBuyer(int id, int count);
     }
 }

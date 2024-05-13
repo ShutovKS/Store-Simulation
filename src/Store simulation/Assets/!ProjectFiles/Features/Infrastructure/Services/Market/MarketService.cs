@@ -5,6 +5,14 @@ namespace Infrastructure.Services.Market
         public MarketData MarketData { get; } = new();
         private Products _products;
 
+        public void Purchase()
+        {
+            MarketData.balance.Value += 1;
+            MarketData.earned.Value += 1;
+            MarketData.productCount.Value++;
+            MarketData.buyerCount.Value++;
+        }
+
         public void PurchaseByBuyer(int id, int count)
         {
             if (!_products.CheckProduct(id, out var countAvailable))

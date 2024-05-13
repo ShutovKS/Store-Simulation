@@ -1,7 +1,9 @@
 using System;
 using Data.Scene;
 using Extension.NonLinearStateMachine;
+using Infrastructure.Services.CoroutineRunner;
 using Infrastructure.Services.Factory.NpcFactory;
+using Infrastructure.Services.Market;
 using NonPlayerCharacter.States;
 using UniRx;
 using UnityEngine;
@@ -10,10 +12,13 @@ namespace NonPlayerCharacter
 {
     public class NpcController
     {
-        public NpcController(GameObject instantiate, GameplaySceneData gameplaySceneData, INpcFactory npcFactory)
+        public NpcController(GameObject instantiate, GameplaySceneData gameplaySceneData, INpcFactory npcFactory,
+            IMarketService marketService, ICoroutineRunner coroutineRunner)
         {
-            var productSearchState = new ProductSearchState(this, instantiate, gameplaySceneData.GroceryOutletPoints);
-            var productPurchaseState = new ProductPurchaseState(this, instantiate, gameplaySceneData.CashRegisterPoint);
+            var productSearchState = new ProductSearchState(this, instantiate, gameplaySceneData.GroceryOutletPoints,
+                coroutineRunner);
+            var productPurchaseState = new ProductPurchaseState(this, instantiate, gameplaySceneData.CashRegisterPoint,
+                marketService, coroutineRunner);
             var exitState = new ExitState(this, instantiate, gameplaySceneData.NpcSpawnPoint);
 
             At(productPurchaseState, productSearchState, IsAllProductSearch());
@@ -32,12 +37,15 @@ namespace NonPlayerCharacter
 
             return;
 
-            Func<bool> IsAllProductSearch() => () => productSearchState.NumberPlacesVisited >= 3;
+            Func<bool> IsAllProductSearch() => () =>
+            {
+                Debug.Log(productSearchState.NumberPlacesVisited);
+                return productSearchState.NumberPlacesVisited >= 3;
+            };
             Func<bool> IsPurchasesPaid() => () => productPurchaseState.IsPurchasesPaid;
         }
 
         public readonly BoolReactiveProperty NpcFinishedShopping = new(false);
-        public readonly NpcData NpcData = new();
         private readonly StateMachine _stateMachine = new();
 
         private void At(IState to, IState from, Func<bool> condition)
