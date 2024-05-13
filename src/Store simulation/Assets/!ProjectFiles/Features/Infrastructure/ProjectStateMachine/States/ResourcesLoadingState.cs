@@ -1,5 +1,5 @@
 ﻿using Data.Scene;
-using Extension.StateMachineCore;
+using Extension.FinalStateMachine;
 using Infrastructure.Services.Windows;
 
 namespace Infrastructure.ProjectStateMachine.States

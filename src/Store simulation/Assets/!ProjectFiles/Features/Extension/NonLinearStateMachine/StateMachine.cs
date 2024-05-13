@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 #endregion
@@ -14,22 +16,33 @@ namespace Extension.NonLinearStateMachine
         private static readonly List<Transition> emptyTransitions = new(0);
 
         private readonly List<Transition> _anyTransitions = new();
-
         private readonly Dictionary<Type, List<Transition>> _transitions = new();
 
+        private CancellationTokenSource _cancellationTick = new();
+        private List<Transition> _currentTransitions = new();
         private IState _currentState;
 
-        private List<Transition> _currentTransitions = new();
-
-        public void Tick()
+        public void TickStop()
         {
-            var transition = GetTransition();
-            if (transition != null)
-            {
-                SetState(transition.To);
-            }
+            _cancellationTick.Cancel();
+        }
 
-            _currentState?.Tick();
+        public async UniTaskVoid Tick()
+        {
+            _cancellationTick = new CancellationTokenSource();
+
+            while (!_cancellationTick.Token.IsCancellationRequested)
+            {
+                var transition = GetTransition();
+                if (transition != null)
+                {
+                    SetState(transition.To);
+                }
+
+                _currentState?.OnUpdate();
+
+                await UniTask.Yield();
+            }
         }
 
         public void SetState(IState state)
@@ -39,14 +52,21 @@ namespace Extension.NonLinearStateMachine
                 return;
             }
 
+            TickStop();
+
             _currentState?.OnExit();
+
             _currentState = state;
+
             _transitions.TryGetValue(_currentState.GetType(), out _currentTransitions);
+
             _currentTransitions ??= emptyTransitions;
 
             _currentState.OnEnter();
 
-            Debug.Log(_currentState.GetType().Name);
+            Tick();
+            
+            Debug.Log($"Current state: {_currentState.GetType().Name}");
         }
 
         public void AddTransition(IState to, IState from, Func<bool> predicate)

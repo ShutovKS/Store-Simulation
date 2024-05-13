@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Market
+namespace Infrastructure.Services.Market
 {
     public class Products
     {
@@ -9,9 +9,14 @@ namespace Market
             { 0, 999 },
         };
 
-        public bool CheckProduct(int id)
+        public bool CheckProduct(int id, out int countAvailable)
         {
-            return _products.TryGetValue(id, out var value) && value > 0;
+            return _products.TryGetValue(id, out countAvailable);
+        }
+
+        public bool CheckProduct(int id, int count)
+        {
+            return _products.TryGetValue(id, out var value) && value >= count;
         }
 
         public void AddProduct(int id, int count)

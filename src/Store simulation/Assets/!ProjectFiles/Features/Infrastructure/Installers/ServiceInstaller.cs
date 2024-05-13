@@ -4,6 +4,7 @@ using Infrastructure.Services.DataBase;
 using Infrastructure.Services.Factory.NpcFactory;
 using Infrastructure.Services.Factory.UIFactory;
 using Infrastructure.Services.Input;
+using Infrastructure.Services.Market;
 using Infrastructure.Services.Progress.Progress;
 using Infrastructure.Services.Progress.SaveLoad;
 using Infrastructure.Services.Sounds;
@@ -24,6 +25,7 @@ namespace Infrastructure.Installers
             BindDataBase();
             BindFactory();
             BindInput();
+            BindMarket();
             BindProgress();
             BindSounds();
             BindWindow();
@@ -53,6 +55,11 @@ namespace Infrastructure.Installers
         private void BindInput()
         {
             Container.Bind<PlayerInputActionReader>().FromInstance(playerInputActionReader).AsSingle();
+        }
+        
+        private void BindMarket()
+        {
+            Container.BindInterfacesTo<MarketService>().AsSingle();
         }
 
         private void BindProgress()

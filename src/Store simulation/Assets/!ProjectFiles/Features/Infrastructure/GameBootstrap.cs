@@ -1,9 +1,10 @@
 ﻿using Data.Scene;
-using Extension.StateMachineCore;
+using Extension.FinalStateMachine;
 using Infrastructure.ProjectStateMachine.States;
 using Infrastructure.Services.AssetsAddressables;
 using Infrastructure.Services.DataBase;
 using Infrastructure.Services.Factory.NpcFactory;
+using Infrastructure.Services.Market;
 using Infrastructure.Services.Windows;
 
 namespace Infrastructure
@@ -14,6 +15,7 @@ namespace Infrastructure
             IAssetsAddressablesProvider assetsAddressablesProvider,
             IDataBaseService dataBaseService,
             INpcFactory npcFactory,
+            IMarketService marketService,
             IWindowService windowService,
             GameplaySceneData gameplaySceneData
         )
@@ -22,7 +24,7 @@ namespace Infrastructure
                 new InitializationState(this, assetsAddressablesProvider),
                 new ResourcesLoadingState(this, windowService),
                 new GameMainMenuState(this, windowService),
-                new GameplayState(this, windowService, dataBaseService, npcFactory, gameplaySceneData)
+                new GameplayState(this, windowService, dataBaseService, npcFactory, marketService, gameplaySceneData)
             );
 
             StateMachine.SwitchState<BootstrapState>();

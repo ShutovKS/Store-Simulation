@@ -1,4 +1,4 @@
-﻿using Extension.StateMachineCore;
+﻿using Extension.FinalStateMachine;
 using Infrastructure.Services.AssetsAddressables;
 
 namespace Infrastructure.ProjectStateMachine.States

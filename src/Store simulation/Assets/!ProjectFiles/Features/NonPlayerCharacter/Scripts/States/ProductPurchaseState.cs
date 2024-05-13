@@ -1,10 +1,10 @@
-using Extension.StateMachineCore;
+using Extension.NonLinearStateMachine;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace NonPlayerCharacter.States
 {
-    public class ProductPurchaseState : IState<NpcController>, IEnterable, ITickable
+    public class ProductPurchaseState : IState
     {
         public ProductPurchaseState(NpcController initializer, GameObject instantiate, Vector3 cashRegisterPoint)
         {
@@ -16,6 +16,8 @@ namespace NonPlayerCharacter.States
         public NpcController Initializer { get; }
         private readonly GameObject _instantiate;
         private readonly Vector3 _cashRegisterPoint;
+        
+        public bool IsPurchasesPaid { get; private set; }
         private NavMeshAgent _agent;
 
         public void OnEnter()
@@ -30,18 +32,17 @@ namespace NonPlayerCharacter.States
             var distanceToTarget = Vector3.Distance(_instantiate.transform.position, _cashRegisterPoint);
             if (distanceToTarget < 1)
             {
-                MoveToExit();
+                IsPurchasesPaid = true;
             }
+        }
+
+        public void OnExit()
+        {
         }
 
         private void MoveToCashRegister()
         {
             _agent.SetDestination(_cashRegisterPoint);
-        }
-
-        private void MoveToExit()
-        {
-            Initializer.StateMachine.SwitchState<ExitState>();
         }
     }
 }

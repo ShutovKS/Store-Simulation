@@ -1,5 +1,6 @@
+using System;
 using Data.Scene;
-using Extension.StateMachineCore;
+using Extension.NonLinearStateMachine;
 using Infrastructure.Services.Factory.NpcFactory;
 using NonPlayerCharacter.States;
 using UniRx;
@@ -9,31 +10,44 @@ namespace NonPlayerCharacter
 {
     public class NpcController
     {
-        public readonly BoolReactiveProperty NpcFinishedShopping = new(false);
-
         public NpcController(GameObject instantiate, GameplaySceneData gameplaySceneData, INpcFactory npcFactory)
         {
-            NpcData = new NpcData();
-            StateMachine = new StateMachine<NpcController>(
-                new BootstrapState(this),
-                new ProductSearchState(this, instantiate, gameplaySceneData.GroceryOutletPoints),
-                new ProductPurchaseState(this, instantiate, gameplaySceneData.CashRegisterPoint),
-                new ExitState(this, instantiate, gameplaySceneData.NpcSpawnPoint)
-            );
+            var productSearchState = new ProductSearchState(this, instantiate, gameplaySceneData.GroceryOutletPoints);
+            var productPurchaseState = new ProductPurchaseState(this, instantiate, gameplaySceneData.CashRegisterPoint);
+            var exitState = new ExitState(this, instantiate, gameplaySceneData.NpcSpawnPoint);
 
-            StateMachine.SwitchState<BootstrapState>();
+            At(productPurchaseState, productSearchState, IsAllProductSearch());
+            At(exitState, productPurchaseState, IsPurchasesPaid());
+
+            _stateMachine.SetState(productSearchState);
 
             NpcFinishedShopping.Subscribe(finishedShopping =>
             {
                 if (finishedShopping)
                 {
-                    StateMachine.TickStop();
+                    _stateMachine.TickStop();
                     npcFactory.DestroyNpc(this);
                 }
             }).AddTo(instantiate);
+
+            return;
+
+            Func<bool> IsAllProductSearch() => () => productSearchState.NumberPlacesVisited >= 3;
+            Func<bool> IsPurchasesPaid() => () => productPurchaseState.IsPurchasesPaid;
         }
 
-        public readonly StateMachine<NpcController> StateMachine;
-        public readonly NpcData NpcData;
+        public readonly BoolReactiveProperty NpcFinishedShopping = new(false);
+        public readonly NpcData NpcData = new();
+        private readonly StateMachine _stateMachine = new();
+
+        private void At(IState to, IState from, Func<bool> condition)
+        {
+            _stateMachine.AddTransition(to, from, condition);
+        }
+
+        private void AtAny(IState to, Func<bool> condition)
+        {
+            _stateMachine.AddAnyTransition(to, condition);
+        }
     }
 }

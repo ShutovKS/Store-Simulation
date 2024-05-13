@@ -1,7 +1,7 @@
 using System;
 using UniRx;
 
-namespace Market
+namespace Infrastructure.Services.Market
 {
     [Serializable]
     public class MarketData
@@ -9,26 +9,26 @@ namespace Market
         /// <summary>
         /// Баланс
         /// </summary>
-        public IntReactiveProperty balance;
+        public IntReactiveProperty balance = new(0);
 
         /// <summary>
         /// Заработано
         /// </summary>
-        public IntReactiveProperty earned;
+        public IntReactiveProperty earned = new(0);
 
         /// <summary>
         /// Потраченный
         /// </summary>
-        public IntReactiveProperty spent;
+        public IntReactiveProperty spent = new(0);
 
         /// <summary>
         /// Количество продуктов
         /// </summary>
-        public IntReactiveProperty productCount;
+        public IntReactiveProperty productCount = new(0);
 
         /// <summary>
         /// количество покупателей
         /// </summary>
-        public IntReactiveProperty buyerCount;
+        public IntReactiveProperty buyerCount = new(0);
     }
 }

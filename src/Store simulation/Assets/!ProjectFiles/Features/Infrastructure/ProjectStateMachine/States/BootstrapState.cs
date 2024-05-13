@@ -1,4 +1,4 @@
-﻿using Extension.StateMachineCore;
+﻿using Extension.FinalStateMachine;
 using Zenject;
 
 namespace Infrastructure.ProjectStateMachine.States

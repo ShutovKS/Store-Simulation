@@ -1,10 +1,10 @@
-using Extension.StateMachineCore;
+using Extension.NonLinearStateMachine;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace NonPlayerCharacter.States
 {
-    public class ExitState : IState<NpcController>, IEnterable, ITickable
+    public class ExitState : IState
     {
         public ExitState(NpcController initializer, GameObject instantiate, Vector3 exitPoint)
         {
@@ -32,6 +32,10 @@ namespace NonPlayerCharacter.States
             {
                 Initializer.NpcFinishedShopping.Value = true;
             }
+        }
+
+        public void OnExit()
+        {
         }
 
         private void MoveToExit()

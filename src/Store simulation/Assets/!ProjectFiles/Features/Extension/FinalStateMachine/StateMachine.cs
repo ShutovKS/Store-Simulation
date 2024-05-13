@@ -44,7 +44,7 @@ namespace Extension.FinalStateMachine
 
         private void ExitCurrentState()
         {
-            _cancellationTick.Cancel();
+            TickStop();
 
             if (_currentState is IExitable state)
             {

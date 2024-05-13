@@ -1,4 +1,4 @@
-﻿using Extension.StateMachineCore;
+﻿using Extension.FinalStateMachine;
 using Infrastructure.Services.AssetsAddressables;
 using Infrastructure.Services.Windows;
 using UI.MainMenuScreen.Scripts;
