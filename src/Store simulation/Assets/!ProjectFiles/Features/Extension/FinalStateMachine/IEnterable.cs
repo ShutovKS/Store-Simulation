@@ -1,4 +1,4 @@
-namespace Extension.StateMachineCore
+namespace Extension.FinalStateMachine
 {
     public interface IEnterable
     {

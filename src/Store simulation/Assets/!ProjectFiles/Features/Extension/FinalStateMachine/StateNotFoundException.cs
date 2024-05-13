@@ -1,6 +1,6 @@
 using System;
 
-namespace Extension.StateMachineCore
+namespace Extension.FinalStateMachine
 {
     public class StateNotFoundException : Exception
     {
