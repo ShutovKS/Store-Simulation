@@ -21,8 +21,8 @@ namespace Infrastructure.ProjectStateMachine.States
 
             LoadResources();
             
-            // Initializer.StateMachine.SwitchState<GameMainMenuState>();
-            Initializer.StateMachine.SwitchState<GameplayState>();
+            Initializer.StateMachine.SwitchState<GameMainMenuState>();
+            // Initializer.StateMachine.SwitchState<GameplayState>();
         }
 
         private void LoadResources()
