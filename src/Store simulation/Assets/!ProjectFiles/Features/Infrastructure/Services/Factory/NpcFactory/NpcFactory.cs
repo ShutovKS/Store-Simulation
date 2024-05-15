@@ -58,6 +58,16 @@ namespace Infrastructure.Services.Factory.NpcFactory
             }
         }
 
+        public void DestroyAllNpc()
+        {
+            foreach (var npcController in _npsControllers.Keys)
+            {
+                Object.Destroy(_npsControllers[npcController]);
+            }
+
+            _npsControllers.Clear();
+        }
+
         private (int, int)[] GenerateCart()
         {
             var productQuantity = Random.Range(1, 5);

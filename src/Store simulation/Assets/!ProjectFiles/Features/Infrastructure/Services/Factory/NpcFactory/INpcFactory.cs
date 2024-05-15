@@ -8,5 +8,6 @@ namespace Infrastructure.Services.Factory.NpcFactory
         void Spawn(GameplaySceneData gameplaySceneData);
         void ProductPurchase();
         void DestroyNpc(NpcController npcController);
+        void DestroyAllNpc();
     }
 }

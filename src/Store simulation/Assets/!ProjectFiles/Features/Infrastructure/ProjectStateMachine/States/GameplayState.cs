@@ -1,4 +1,4 @@
-﻿using Data.Scene;
+using Data.Scene;
 using Extension.FinalStateMachine;
 using Infrastructure.Services.AssetsAddressables;
 using Infrastructure.Services.DataBase;
@@ -43,6 +43,10 @@ namespace Infrastructure.ProjectStateMachine.States
         {
             _windowService.Open(WindowID.Loading);
             _windowService.Close(WindowID.Gameplay);
+            
+            _npcFactory.DestroyAllNpc();
+            
+            _disposable.Clear();
         }
 
         private void SimulationInitialization()
