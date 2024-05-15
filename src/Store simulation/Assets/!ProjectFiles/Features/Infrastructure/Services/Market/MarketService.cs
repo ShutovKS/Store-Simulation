@@ -33,17 +33,22 @@ namespace Infrastructure.Services.Market
 
         public void PurchaseByBuyer((int id, int count)[] cart)
         {
+            var totalPrice = 0;
+            
             foreach (var product in cart)
             {
-                PurchaseByBuyer(product.id, product.count);
+                PurchaseByBuyer(product.id, product.count, out var price);
+                totalPrice += price;
             }
 
             MarketData.buyerCount.Value++;
-            
+
+            _dataBaseService.AddTransaction(1, TransactionData.TransactionType.sale, totalPrice);
+
             UpdateStoreData();
         }
 
-        private void PurchaseByBuyer(int id, int count)
+        private void PurchaseByBuyer(int id, int count, out int price)
         {
             var productData = _dataBaseService.GetProductById(id);
             var isProductToStock = _dataBaseService.CheckProductToStockById(id);
@@ -60,6 +65,8 @@ namespace Infrastructure.Services.Market
                 {
                     _dataBaseService.AddProductToPurchaseById(id, count);
                 }
+
+                price = 0;
 
                 return;
             }
@@ -83,7 +90,7 @@ namespace Infrastructure.Services.Market
                 }
             }
 
-            var price = productData.SellingPrice * count;
+            price = productData.SellingPrice * count;
 
             MarketData.productCount.Value += count;
             MarketData.balance.Value += price;

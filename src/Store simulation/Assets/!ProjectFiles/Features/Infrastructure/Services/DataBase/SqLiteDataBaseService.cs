@@ -24,9 +24,10 @@ namespace Infrastructure.Services.DataBase
 
         public StoreData GetStoreData(int storeId)
         {
-            var query = "SELECT id, name, address, employee_id, balance, total_earnings, total_expenses, total_products_sold, total_customers " +
-                        "FROM Store " +
-                        $"WHERE id = {storeId}";
+            var query =
+                "SELECT id, name, address, employee_id, balance, total_earnings, total_expenses, total_products_sold, total_customers " +
+                "FROM Store " +
+                $"WHERE id = {storeId}";
 
             var dataTable = ExecuteQuery(query);
 
@@ -77,7 +78,7 @@ namespace Infrastructure.Services.DataBase
 
             return employeeData;
         }
-        
+
         public ProductData[] GetAllProducts()
         {
             var query = "SELECT id, name, description, purchase_price, selling_price, category " +
@@ -283,6 +284,14 @@ namespace Infrastructure.Services.DataBase
 
             ExecuteNonQuery(query);
         }
+        
+        public void AddTransaction(int storeId, TransactionData.TransactionType type, int totalPrice)
+        {
+            var query = "INSERT INTO Transactions (store_id, transaction_datetime, transaction_type, transaction_amount) " +
+                        $"VALUES ({storeId}, '{DateTime.Now}', '{type}', {totalPrice})";
+
+            ExecuteNonQuery(query);
+        }
 
         private void ExecuteNonQuery(string query)
         {
@@ -350,5 +359,20 @@ namespace Infrastructure.Services.DataBase
         public int ProductId;
         public string ProductName;
         public int Quantity;
+    }
+    
+    public struct TransactionData
+    {
+        public int Id;
+        public int StoreId;
+        public DateTime TransactionDateTime;
+        public TransactionType Type;
+        public int TransactionAmount;
+        
+        public enum TransactionType
+        {
+            purchase,
+            sale
+        }
     }
 }

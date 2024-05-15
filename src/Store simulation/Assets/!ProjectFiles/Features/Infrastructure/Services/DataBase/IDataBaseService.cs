@@ -25,5 +25,7 @@ namespace Infrastructure.Services.DataBase
         bool CheckProductToPurchaseById(int id);
         void AddProductToPurchaseById(int id, int quantity);
         void RemoveProductToPurchaseById(int id);
+
+        void AddTransaction(int storeId, TransactionData.TransactionType type, int totalPrice);
     }
 }
