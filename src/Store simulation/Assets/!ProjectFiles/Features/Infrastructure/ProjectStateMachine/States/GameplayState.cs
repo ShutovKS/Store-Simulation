@@ -1,3 +1,4 @@
+﻿using System.Threading.Tasks;
 using Data.Scene;
 using Extension.FinalStateMachine;
 using Infrastructure.Services.AssetsAddressables;
@@ -5,6 +6,7 @@ using Infrastructure.Services.DataBase;
 using Infrastructure.Services.Factory.NpcFactory;
 using Infrastructure.Services.Market;
 using Infrastructure.Services.Windows;
+using UI.Gameplay;
 using UI.Market.Scripts;
 using UnityEngine.AddressableAssets;
 using UniRx;
@@ -51,14 +53,15 @@ namespace Infrastructure.ProjectStateMachine.States
 
         private void SimulationInitialization()
         {
-            OpenGameplayWindow();
             InitializeMarketUI();
 
             Observable.Timer(System.TimeSpan.FromSeconds(0), System.TimeSpan.FromSeconds(15))
                 .Subscribe(_ => _npcFactory.Spawn(_gameplaySceneData)).AddTo(_disposable);
-            
+
             Observable.Timer(System.TimeSpan.FromSeconds(300), System.TimeSpan.FromSeconds(300))
                 .Subscribe(_ => _marketService.OrderProducts()).AddTo(_disposable);
+            
+            OpenGameplayWindow();
         }
 
         private void InitializeMarketUI()
@@ -81,9 +84,12 @@ namespace Infrastructure.ProjectStateMachine.States
                 .AddTo(_disposable);
         }
 
-        private void OpenGameplayWindow()
+        private async void OpenGameplayWindow()
         {
-            _windowService.Open(WindowID.Gameplay);
+            var gameplayUI = await _windowService.OpenAndGetComponent<GameplayUI>(WindowID.Gameplay);
+            gameplayUI.CloseMarket.OnClickAsObservable().Subscribe(_ =>
+                Initializer.StateMachine.SwitchState<GameMainMenuState>()).AddTo(_disposable);
+
             _windowService.Close(WindowID.Loading);
         }
     }
