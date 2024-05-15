@@ -43,7 +43,7 @@ namespace Infrastructure.Installers
 
         private void BindDataBase()
         {
-            Container.BindInterfacesTo<ReadyData>().AsSingle();
+            Container.BindInterfacesTo<SqLiteDataBaseService>().AsSingle();
         }
 
         private void BindFactory()

@@ -21,7 +21,7 @@ namespace Infrastructure
         )
         {
             StateMachine = new StateMachine<GameBootstrap>(new BootstrapState(this),
-                new InitializationState(this, assetsAddressablesProvider),
+                new InitializationState(this, assetsAddressablesProvider, dataBaseService, marketService),ц
                 new ResourcesLoadingState(this, windowService),
                 new GameMainMenuState(this, windowService),
                 new GameplayState(this, windowService, dataBaseService, npcFactory, marketService, gameplaySceneData)

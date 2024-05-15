@@ -65,8 +65,6 @@ namespace Extension.NonLinearStateMachine
             _currentState.OnEnter();
 
             Tick();
-            
-            Debug.Log($"Current state: {_currentState.GetType().Name}");
         }
 
         public void AddTransition(IState to, IState from, Func<bool> predicate)

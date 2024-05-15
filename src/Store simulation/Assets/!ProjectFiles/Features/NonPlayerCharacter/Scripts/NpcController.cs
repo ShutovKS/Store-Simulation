@@ -37,11 +37,7 @@ namespace NonPlayerCharacter
 
             return;
 
-            Func<bool> IsAllProductSearch() => () =>
-            {
-                Debug.Log(productSearchState.NumberPlacesVisited);
-                return productSearchState.NumberPlacesVisited >= 3;
-            };
+            Func<bool> IsAllProductSearch() => () => productSearchState.NumberPlacesVisited >= 3;
             Func<bool> IsPurchasesPaid() => () => productPurchaseState.IsPurchasesPaid;
         }
 
