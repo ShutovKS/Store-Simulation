@@ -7,5 +7,6 @@ namespace Infrastructure.Services.Market
 
         void InitializeData();
         void PurchaseByBuyer((int id, int count)[] cart);
+        void OrderProducts();
     }
 }

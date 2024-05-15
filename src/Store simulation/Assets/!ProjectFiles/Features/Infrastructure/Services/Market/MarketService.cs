@@ -31,10 +31,72 @@ namespace Infrastructure.Services.Market
             Products = new Products(productDatas);
         }
 
+        public void OrderProducts()
+        {
+            var deliveryCost = 1000;
+            var totalPrice = deliveryCost;
+
+            var productsToPurchase = _dataBaseService.GetAllProductsToPurchase();
+
+            foreach (var product in productsToPurchase)
+            {
+                var productData = _dataBaseService.GetProductById(product.ProductId);
+                var quantity = product.Quantity * 2;
+                var price = productData.PurchasePrice * quantity;
+
+                if (totalPrice + price < MarketData.balance.Value)
+                {
+                    totalPrice += price;
+
+                    _dataBaseService.AddProductToStockById(product.ProductId, quantity);
+                    _dataBaseService.RemoveProductToPurchaseById(product.ProductId);
+                }
+                else
+                {
+                    var productToStockCount = _dataBaseService.GetProductToStockById(product.ProductId).Quantity;
+                    var productToPurchaseCount = _dataBaseService.GetProductToPurchaseById(product.ProductId).Quantity;
+
+                    for (var i = 0; i < quantity; i++)
+                    {
+                        if (totalPrice + productData.PurchasePrice < MarketData.balance.Value)
+                        {
+                            totalPrice += productData.PurchasePrice;
+
+                            if (!_dataBaseService.CheckProductToStockById(product.ProductId))
+                            {
+                                _dataBaseService.AddProductToStockById(product.ProductId, 0);
+                            }
+
+                            var count = i + 1;
+                            _dataBaseService.UpdateProductToStockById(product.ProductId, productToStockCount + count);
+                            _dataBaseService.UpdateProductToPurchaseById(product.ProductId,
+                                productToPurchaseCount - count);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    if (_dataBaseService.GetProductToPurchaseById(product.ProductId).Quantity == 0)
+                    {
+                        _dataBaseService.RemoveProductToPurchaseById(product.ProductId);
+                    }
+                }
+
+                _dataBaseService.AddTransaction(1, TransactionData.TransactionType.purchase, price);
+
+                MarketData.spent.Value += price;
+                MarketData.balance.Value -= price;
+
+                UpdateStoreData();
+            }
+        }
+
         public void PurchaseByBuyer((int id, int count)[] cart)
         {
             var totalPrice = 0;
-            
+
             foreach (var product in cart)
             {
                 PurchaseByBuyer(product.id, product.count, out var price);
