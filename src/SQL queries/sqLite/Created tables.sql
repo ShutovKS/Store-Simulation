@@ -65,14 +65,6 @@ CREATE TABLE Transactions (
     transaction_amount DECIMAL(15, 2) NOT NULL
 );
 
--- Создание таблицы TransactionProducts для хранения списка продуктов в транзакции
-CREATE TABLE TransactionProducts (
-    transaction_id INTEGER,
-    product_id INTEGER,
-    quantity INTEGER NOT NULL,
-    PRIMARY KEY (transaction_id, product_id)
-);
-
 -- Создание триггера для автоматического обновления списка товаров в категории при вставке нового товара
 CREATE TRIGGER update_products_list_after_insert
 AFTER INSERT ON Products

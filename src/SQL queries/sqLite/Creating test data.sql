@@ -51,10 +51,3 @@ INSERT INTO Transactions (store_id, transaction_datetime, transaction_type, tran
 (1, '2023-04-01 11:00:00', 'purchase', 500.00),
 (2, '2023-04-01 12:00:00', 'sale', 1200.00),
 (2, '2023-04-01 13:00:00', 'purchase', 800.00);
-
--- Вставка тестовых данных в таблицу TransactionProducts
-INSERT INTO TransactionProducts (transaction_id, product_id, quantity) VALUES
-(1, 1, 1), -- Transaction 1: 1 Smartphone
-(2, 1, 1), -- Transaction 2: 1 Smartphone
-(3, 2, 1), -- Transaction 3: 1 Laptop
-(4, 2, 1); -- Transaction 4: 1 Laptop

@@ -2,7 +2,6 @@
 DROP TRIGGER IF EXISTS update_products_list_after_insert;
 
 -- Удаление таблиц
-DROP TABLE IF EXISTS TransactionProducts;
 DROP TABLE IF EXISTS Transactions;
 DROP TABLE IF EXISTS ProductsToPurchase;
 DROP TABLE IF EXISTS ProductStock;

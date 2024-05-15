@@ -1,6 +1,3 @@
--- Удаление данных из таблицы TransactionProducts
-DELETE FROM TransactionProducts;
-
 -- Удаление данных из таблицы Transactions
 DELETE FROM Transactions;
 
