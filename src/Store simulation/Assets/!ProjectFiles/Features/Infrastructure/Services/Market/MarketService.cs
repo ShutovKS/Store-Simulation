@@ -1,5 +1,7 @@
+using System;
 using Infrastructure.Services.DataBase;
 using UniRx;
+using UnityEngine;
 
 namespace Infrastructure.Services.Market
 {
@@ -33,22 +35,42 @@ namespace Infrastructure.Services.Market
 
         public void OrderProducts()
         {
+            Debug.Log($"OrderProducts: {DateTime.Now}");
+
             var deliveryCost = 1000;
             var totalPrice = deliveryCost;
 
             var productsToPurchase = _dataBaseService.GetAllProductsToPurchase();
+
+            Debug.Log($"productsToPurchase: {productsToPurchase.Length}");
+
+            if (productsToPurchase.Length == 0)
+            {
+                return;
+            }
 
             foreach (var product in productsToPurchase)
             {
                 var productData = _dataBaseService.GetProductById(product.ProductId);
                 var quantity = product.Quantity * 2;
                 var price = productData.PurchasePrice * quantity;
+                
+                Debug.Log($"Product: {productData.Name}, Quantity: {quantity}, Price: {price}");
 
                 if (totalPrice + price < MarketData.balance.Value)
                 {
                     totalPrice += price;
+                    
+                    if (!_dataBaseService.CheckProductToStockById(product.ProductId))
+                    {
+                        _dataBaseService.AddProductToStockById(product.ProductId, quantity);
+                    }
+                    else
+                    {
+                        var productToStockCount = _dataBaseService.GetProductToStockById(product.ProductId).Quantity;
+                        _dataBaseService.UpdateProductToStockById(product.ProductId, productToStockCount + quantity);
+                    }
 
-                    _dataBaseService.AddProductToStockById(product.ProductId, quantity);
                     _dataBaseService.RemoveProductToPurchaseById(product.ProductId);
                 }
                 else

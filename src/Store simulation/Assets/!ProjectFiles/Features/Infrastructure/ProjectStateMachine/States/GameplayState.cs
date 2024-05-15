@@ -50,10 +50,10 @@ namespace Infrastructure.ProjectStateMachine.States
             OpenGameplayWindow();
             InitializeMarketUI();
 
-            Observable.Timer(System.TimeSpan.FromSeconds(0), System.TimeSpan.FromSeconds(20))
+            Observable.Timer(System.TimeSpan.FromSeconds(0), System.TimeSpan.FromSeconds(15))
                 .Subscribe(_ => _npcFactory.Spawn(_gameplaySceneData)).AddTo(_disposable);
             
-            Observable.Timer(System.TimeSpan.FromSeconds(1000), System.TimeSpan.FromSeconds(1000))
+            Observable.Timer(System.TimeSpan.FromSeconds(300), System.TimeSpan.FromSeconds(300))
                 .Subscribe(_ => _marketService.OrderProducts()).AddTo(_disposable);
         }
 
