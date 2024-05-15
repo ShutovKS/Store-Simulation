@@ -34,10 +34,16 @@ namespace Infrastructure.Services.Factory.NpcFactory
             var instantiate = _container.InstantiatePrefab(prefab);
             instantiate.transform.position = gameplaySceneData.NpcSpawnPoint;
 
-            var npcController = new NpcController(instantiate, gameplaySceneData, this, _marketService,
+            var npcController = new NpcController(instantiate, gameplaySceneData, this,
                 _coroutineRunner);
 
             _npsControllers.Add(npcController, instantiate);
+        }
+
+        public void ProductPurchase()
+        {
+            var cart = GenerateCart();
+            _marketService.PurchaseByBuyer(cart);
         }
 
         public void DestroyNpc(NpcController npcController)
@@ -50,6 +56,21 @@ namespace Infrastructure.Services.Factory.NpcFactory
             {
                 Debug.LogError($"Npc не найден для уничтожения.");
             }
+        }
+
+        private (int, int)[] GenerateCart()
+        {
+            var productQuantity = Random.Range(1, 5);
+            var cart = new (int, int)[productQuantity];
+
+            for (var i = 0; i < productQuantity; i++)
+            {
+                var productId = _marketService.Products.GetRandomProduct().Id;
+                var productCount = Random.Range(1, 10);
+                cart[i] = (productId, productCount);
+            }
+
+            return cart;
         }
     }
 }

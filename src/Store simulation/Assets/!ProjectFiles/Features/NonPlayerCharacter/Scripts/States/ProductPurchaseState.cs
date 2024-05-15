@@ -1,7 +1,7 @@
 using System.Collections;
 using Extension.NonLinearStateMachine;
 using Infrastructure.Services.CoroutineRunner;
-using Infrastructure.Services.Market;
+using UniRx;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,11 +10,10 @@ namespace NonPlayerCharacter.States
     public class ProductPurchaseState : IState
     {
         public ProductPurchaseState(NpcController initializer, GameObject instantiate, Vector3 cashRegisterPoint,
-            IMarketService marketService, ICoroutineRunner coroutineRunner)
+            ICoroutineRunner coroutineRunner)
         {
             _instantiate = instantiate;
             _cashRegisterPoint = cashRegisterPoint;
-            _marketService = marketService;
             _coroutineRunner = coroutineRunner;
             Initializer = initializer;
         }
@@ -22,10 +21,9 @@ namespace NonPlayerCharacter.States
         public NpcController Initializer { get; }
         private readonly GameObject _instantiate;
         private readonly Vector3 _cashRegisterPoint;
-        private readonly IMarketService _marketService;
         private readonly ICoroutineRunner _coroutineRunner;
 
-        public bool IsPurchasesPaid { get; private set; }
+        public BoolReactiveProperty IsPurchasesPaid { get; } = new(false);
         private NavMeshAgent _agent;
         private Coroutine _purchaseCoroutine;
 
@@ -39,7 +37,7 @@ namespace NonPlayerCharacter.States
         public void OnUpdate()
         {
             var distanceToTarget = Vector3.Distance(_instantiate.transform.position, _cashRegisterPoint);
-            if (distanceToTarget < 1 && !IsPurchasesPaid && _purchaseCoroutine == null)
+            if (distanceToTarget < 1 && !IsPurchasesPaid.Value && _purchaseCoroutine == null)
             {
                 _purchaseCoroutine = _coroutineRunner.StartCoroutine(Purchase());
             }
@@ -60,8 +58,7 @@ namespace NonPlayerCharacter.States
         {
             yield return new WaitForSeconds(2);
 
-            _marketService.Purchase();
-            IsPurchasesPaid = true;
+            IsPurchasesPaid.Value = true;
         }
     }
 }

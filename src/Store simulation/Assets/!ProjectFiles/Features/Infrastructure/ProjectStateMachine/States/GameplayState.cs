@@ -50,7 +50,8 @@ namespace Infrastructure.ProjectStateMachine.States
             OpenGameplayWindow();
             InitializeMarketUI();
 
-            _npcFactory.Spawn(_gameplaySceneData);
+            Observable.Timer(System.TimeSpan.FromSeconds(10), System.TimeSpan.FromSeconds(10))
+                .Subscribe(_ => _npcFactory.Spawn(_gameplaySceneData)).AddTo(_disposable);
         }
 
         private void InitializeMarketUI()
@@ -60,12 +61,17 @@ namespace Infrastructure.ProjectStateMachine.States
             MarketUI.Instance.Spent.text = _marketService.MarketData.spent.Value.ToString();
             MarketUI.Instance.ProductCount.text = _marketService.MarketData.productCount.Value.ToString();
             MarketUI.Instance.BuyerCount.text = _marketService.MarketData.buyerCount.Value.ToString();
-            
-            _marketService.MarketData.balance.Subscribe(value => MarketUI.Instance.Balance.text = $"{value}").AddTo(_disposable);
-            _marketService.MarketData.earned.Subscribe(value => MarketUI.Instance.Earned.text = $"{value}").AddTo(_disposable);
-            _marketService.MarketData.spent.Subscribe(value => MarketUI.Instance.Spent.text = $"{value}").AddTo(_disposable);
-            _marketService.MarketData.productCount.Subscribe(value => MarketUI.Instance.ProductCount.text = $"{value}").AddTo(_disposable);
-            _marketService.MarketData.buyerCount.Subscribe(value => MarketUI.Instance.BuyerCount.text = $"{value}").AddTo(_disposable);
+
+            _marketService.MarketData.balance.Subscribe(value => MarketUI.Instance.Balance.text = $"{value}")
+                .AddTo(_disposable);
+            _marketService.MarketData.earned.Subscribe(value => MarketUI.Instance.Earned.text = $"{value}")
+                .AddTo(_disposable);
+            _marketService.MarketData.spent.Subscribe(value => MarketUI.Instance.Spent.text = $"{value}")
+                .AddTo(_disposable);
+            _marketService.MarketData.productCount.Subscribe(value => MarketUI.Instance.ProductCount.text = $"{value}")
+                .AddTo(_disposable);
+            _marketService.MarketData.buyerCount.Subscribe(value => MarketUI.Instance.BuyerCount.text = $"{value}")
+                .AddTo(_disposable);
         }
 
         private void OpenGameplayWindow()

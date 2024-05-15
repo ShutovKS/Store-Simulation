@@ -1,4 +1,5 @@
 using Extension.NonLinearStateMachine;
+using UniRx;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,6 +15,7 @@ namespace NonPlayerCharacter.States
         }
 
         public NpcController Initializer { get; }
+        public BoolReactiveProperty NpcFinishedShopping { get; } = new(false);
         private readonly GameObject _instantiate;
         private readonly Vector3 _exitPoint;
         private NavMeshAgent _agent;
@@ -30,7 +32,7 @@ namespace NonPlayerCharacter.States
             var distanceToTarget = Vector3.Distance(_instantiate.transform.position, _exitPoint);
             if (distanceToTarget < 1)
             {
-                Initializer.NpcFinishedShopping.Value = true;
+                NpcFinishedShopping.Value = true;
             }
         }
 
