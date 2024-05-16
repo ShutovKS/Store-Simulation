@@ -22,6 +22,101 @@ namespace Infrastructure.Services.DataBase
             _connection.Open();
         }
 
+        public CategoryData[] GetAllCategories()
+        {
+            var query = "SELECT name " +
+                        "FROM Category";
+
+            var dataTable = ExecuteQuery(query);
+
+            var categoryData = new CategoryData[dataTable.Rows.Count];
+
+            for (var i = 0; i < dataTable.Rows.Count; i++)
+            {
+                categoryData[i] = new CategoryData
+                {
+                    Name = dataTable.Rows[i]["name"].ToString()
+                };
+            }
+
+            return categoryData;
+        }
+
+        public CategoryProductData[] GetAllCategoryProducts()
+        {
+            var query = "SELECT product_id, category_name " +
+                        "FROM CategoryProduct";
+
+            var dataTable = ExecuteQuery(query);
+
+            var categoryProductData = new CategoryProductData[dataTable.Rows.Count];
+
+            for (var i = 0; i < dataTable.Rows.Count; i++)
+            {
+                categoryProductData[i] = new CategoryProductData
+                {
+                    CategoryId = dataTable.Rows[i]["category_name"].ToString(),
+                    ProductId = Convert.ToInt32(dataTable.Rows[i]["product_id"]),
+                };
+            }
+
+            return categoryProductData;
+        }
+
+        public EmployeeData[] GetAllEmployees()
+        {
+            var query = "SELECT id, name, position, salary, hire_date, moving_speed, service_speed " +
+                        "FROM Employees";
+
+            var dataTable = ExecuteQuery(query);
+
+            var employeeData = new EmployeeData[dataTable.Rows.Count];
+
+            for (var i = 0; i < dataTable.Rows.Count; i++)
+            {
+                employeeData[i] = new EmployeeData
+                {
+                    Id = Convert.ToInt32(dataTable.Rows[i]["id"]),
+                    Name = dataTable.Rows[i]["name"].ToString(),
+                    Position = dataTable.Rows[i]["position"].ToString(),
+                    Salary = Convert.ToInt32(dataTable.Rows[i]["salary"]),
+                    HireDate = Convert.ToDateTime(dataTable.Rows[i]["hire_date"]),
+                    MovingSpeed = Convert.ToInt32(dataTable.Rows[i]["moving_speed"]),
+                    ServiceSpeed = Convert.ToInt32(dataTable.Rows[i]["service_speed"])
+                };
+            }
+
+            return employeeData;
+        }
+
+        public StoreData[] GetAllStoreData()
+        {
+            var query = "SELECT id, name, address, employee_id, balance, total_earnings, total_expenses, total_products_sold, total_customers " +
+                        "FROM Store";
+
+            var dataTable = ExecuteQuery(query);
+
+            var storeData = new StoreData[dataTable.Rows.Count];
+
+            for (var i = 0; i < dataTable.Rows.Count; i++)
+            {
+                storeData[i] = new StoreData
+                {
+                    Id = Convert.ToInt32(dataTable.Rows[i]["id"]),
+                    Name = dataTable.Rows[i]["name"].ToString(),
+                    Address = dataTable.Rows[i]["address"].ToString(),
+                    EmployeeId = Convert.ToInt32(dataTable.Rows[i]["employee_id"]),
+                    Balance = Convert.ToInt32(dataTable.Rows[i]["balance"]),
+                    TotalEarnings = Convert.ToInt32(dataTable.Rows[i]["total_earnings"]),
+                    TotalExpenses = Convert.ToInt32(dataTable.Rows[i]["total_expenses"]),
+                    TotalProductsSold = Convert.ToInt32(dataTable.Rows[i]["total_products_sold"]),
+                    TotalCustomers = Convert.ToInt32(dataTable.Rows[i]["total_customers"])
+                };
+            }
+
+            return storeData;
+        }
+
         public StoreData GetStoreData(int storeId)
         {
             var query =
@@ -54,6 +149,16 @@ namespace Infrastructure.Services.DataBase
                         $"SET balance = {balance}, total_earnings = {totalEarnings}, total_expenses = {totalExpenses}, total_products_sold = {totalProductsSold}, total_customers = {totalCustomers} " +
                         $"WHERE id = {storeId}";
             ExecuteNonQuery(query);
+        }
+
+        public TransactionData[] GetAllTransactions()
+        {
+            throw new NotImplementedException();
+        }
+
+        public TransactionData GetTransactionById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public EmployeeData GetEmployeeByStoreId(int storeId)
@@ -284,11 +389,12 @@ namespace Infrastructure.Services.DataBase
 
             ExecuteNonQuery(query);
         }
-        
+
         public void AddTransaction(int storeId, TransactionData.TransactionType type, int totalPrice)
         {
-            var query = "INSERT INTO Transactions (store_id, transaction_datetime, transaction_type, transaction_amount) " +
-                        $"VALUES ({storeId}, '{DateTime.Now}', '{type}', {totalPrice})";
+            var query =
+                "INSERT INTO Transactions (store_id, transaction_datetime, transaction_type, transaction_amount) " +
+                $"VALUES ({storeId}, '{DateTime.Now}', '{type}', {totalPrice})";
 
             ExecuteNonQuery(query);
         }
@@ -317,62 +423,6 @@ namespace Infrastructure.Services.DataBase
         public void Dispose()
         {
             _connection?.Close();
-        }
-    }
-
-    public struct StoreData
-    {
-        public int Id;
-        public string Name;
-        public string Address;
-        public int EmployeeId;
-        public int Balance;
-        public int TotalEarnings;
-        public int TotalExpenses;
-        public int TotalProductsSold;
-        public int TotalCustomers;
-    }
-
-    public struct EmployeeData
-    {
-        public int Id;
-        public string Name;
-        public string Position;
-        public int Salary;
-        public DateTime HireDate;
-        public int MovingSpeed;
-        public int ServiceSpeed;
-    }
-
-    public struct ProductData
-    {
-        public int Id;
-        public string Name;
-        public string Description;
-        public int PurchasePrice;
-        public int SellingPrice;
-        public string Category;
-    }
-
-    public struct ProductCountData
-    {
-        public int ProductId;
-        public string ProductName;
-        public int Quantity;
-    }
-    
-    public struct TransactionData
-    {
-        public int Id;
-        public int StoreId;
-        public DateTime TransactionDateTime;
-        public TransactionType Type;
-        public int TransactionAmount;
-        
-        public enum TransactionType
-        {
-            purchase,
-            sale
         }
     }
 }

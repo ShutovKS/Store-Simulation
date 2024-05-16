@@ -3,15 +3,17 @@ namespace Infrastructure.Services.DataBase
     public interface IDataBaseService
     {
         void ConnectToDataBase();
-        
-        StoreData GetStoreData(int storeId);
-        void UpdatedStoreData(int storeId, int balance, int totalEarnings, int totalExpenses, int totalProductsSold, int totalCustomers);
-        
+
+        CategoryData[] GetAllCategories();
+
+        CategoryProductData[] GetAllCategoryProducts();
+
+        EmployeeData[] GetAllEmployees();
         EmployeeData GetEmployeeByStoreId(int storeId);
-        
+
         ProductData[] GetAllProducts();
         ProductData GetProductById(int productId);
-        
+
         ProductCountData[] GetAllProductToStock();
         ProductCountData GetProductToStockById(int id);
         void UpdateProductToStockById(int id, int quantity);
@@ -26,6 +28,13 @@ namespace Infrastructure.Services.DataBase
         void AddProductToPurchaseById(int id, int quantity);
         void RemoveProductToPurchaseById(int id);
 
+        StoreData[] GetAllStoreData();
+        StoreData GetStoreData(int storeId);
+        void UpdatedStoreData(int storeId, int balance, int totalEarnings, int totalExpenses, int totalProductsSold,
+            int totalCustomers);
+
+        TransactionData[] GetAllTransactions();
+        TransactionData GetTransactionById(int id);
         void AddTransaction(int storeId, TransactionData.TransactionType type, int totalPrice);
     }
 }
