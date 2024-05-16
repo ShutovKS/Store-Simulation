@@ -434,7 +434,7 @@ namespace Infrastructure.Services.DataBase
         {
             var query =
                 "INSERT INTO Transactions (store_id, transaction_datetime, transaction_type, transaction_amount) " +
-                $"VALUES ({storeId}, '{DateTime.Now}', '{type}', {totalPrice})";
+                $"VALUES ({storeId}, '{DateTime.Now:yyyy-MM-dd HH:mm:ss}', '{type}', {totalPrice})";
 
             ExecuteNonQuery(query);
         }
@@ -463,7 +463,7 @@ namespace Infrastructure.Services.DataBase
             {
                 Debug.LogError(e);
             }
-            
+
             return dataTable;
         }
 
