@@ -28,13 +28,13 @@ namespace Infrastructure.Services.DataBase
         void AddProductToPurchaseById(int id, int quantity);
         void RemoveProductToPurchaseById(int id);
 
-        StoreData[] GetAllStoreData();
+        StoreData[] GetAllStores();
         StoreData GetStoreData(int storeId);
         void UpdatedStoreData(int storeId, int balance, int totalEarnings, int totalExpenses, int totalProductsSold,
             int totalCustomers);
 
         TransactionData[] GetAllTransactions();
         TransactionData GetTransactionById(int id);
-        void AddTransaction(int storeId, TransactionData.TransactionType type, int totalPrice);
+        void AddTransaction(int storeId, TransactionType type, int totalPrice);
     }
 }

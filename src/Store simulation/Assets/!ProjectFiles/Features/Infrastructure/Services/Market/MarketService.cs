@@ -106,7 +106,7 @@ namespace Infrastructure.Services.Market
                     }
                 }
 
-                _dataBaseService.AddTransaction(1, TransactionData.TransactionType.purchase, price);
+                _dataBaseService.AddTransaction(1, TransactionType.purchase, price);
 
                 MarketData.spent.Value += price;
                 MarketData.balance.Value -= price;
@@ -127,7 +127,7 @@ namespace Infrastructure.Services.Market
 
             MarketData.buyerCount.Value++;
 
-            _dataBaseService.AddTransaction(1, TransactionData.TransactionType.sale, totalPrice);
+            _dataBaseService.AddTransaction(1, TransactionType.sale, totalPrice);
 
             UpdateStoreData();
         }

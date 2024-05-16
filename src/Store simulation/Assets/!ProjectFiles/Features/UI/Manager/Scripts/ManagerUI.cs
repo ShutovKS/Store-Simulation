@@ -16,6 +16,6 @@ namespace UI.Manager
         [field: SerializeField] public Button StoreButton { get; private set; }
         [field: SerializeField] public Button TransactionsButton { get; private set; }
 
-        [field: SerializeField] public CategoryUI CategoryUI { get; private set; }
+        [field: SerializeField] public ContentManagerUI TableUI { get; private set; }
     }
 }

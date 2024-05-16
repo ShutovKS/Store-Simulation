@@ -10,10 +10,11 @@ namespace Infrastructure.Services.DataBase
         public TransactionType Type;
         public int TransactionAmount;
         
-        public enum TransactionType
-        {
-            purchase,
-            sale
-        }
+    }
+
+    public enum TransactionType
+    {
+        purchase,
+        sale
     }
 }

@@ -18,7 +18,10 @@ namespace Infrastructure.Services.DataBase
                 return;
             }
 
-            _connection = new SqliteConnection("URI=file:" + Application.streamingAssetsPath + "/data_base.db");
+            _connection = new SqliteConnection("URI=file:"
+                                               + Application.streamingAssetsPath
+                                               + "/data_base.db"
+            );
             _connection.Open();
         }
 
@@ -89,10 +92,11 @@ namespace Infrastructure.Services.DataBase
             return employeeData;
         }
 
-        public StoreData[] GetAllStoreData()
+        public StoreData[] GetAllStores()
         {
-            var query = "SELECT id, name, address, employee_id, balance, total_earnings, total_expenses, total_products_sold, total_customers " +
-                        "FROM Store";
+            var query =
+                "SELECT id, name, address, employee_id, balance, total_earnings, total_expenses, total_products_sold, total_customers " +
+                "FROM Store";
 
             var dataTable = ExecuteQuery(query);
 
@@ -153,12 +157,48 @@ namespace Infrastructure.Services.DataBase
 
         public TransactionData[] GetAllTransactions()
         {
-            throw new NotImplementedException();
+            var query = "SELECT id, store_id, transaction_datetime, transaction_type, transaction_amount " +
+                        "FROM Transactions";
+
+            var dataTable = ExecuteQuery(query);
+
+            var transactionData = new TransactionData[dataTable.Rows.Count];
+
+            for (var i = 0; i < dataTable.Rows.Count; i++)
+            {
+                transactionData[i] = new TransactionData
+                {
+                    Id = Convert.ToInt32(dataTable.Rows[i]["id"]),
+                    StoreId = Convert.ToInt32(dataTable.Rows[i]["store_id"]),
+                    TransactionDateTime = Convert.ToDateTime(dataTable.Rows[i]["transaction_datetime"]),
+                    Type = (TransactionType)Enum.Parse(typeof(TransactionType),
+                        dataTable.Rows[i]["transaction_type"].ToString()),
+                    TransactionAmount = Convert.ToInt32(dataTable.Rows[i]["transaction_amount"])
+                };
+            }
+
+            return transactionData;
         }
 
         public TransactionData GetTransactionById(int id)
         {
-            throw new NotImplementedException();
+            var query = "SELECT id, store_id, transaction_datetime, transaction_type, transaction_amount " +
+                        "FROM Transactions " +
+                        $"WHERE id = {id}";
+
+            var dataTable = ExecuteQuery(query);
+
+            var transactionData = new TransactionData
+            {
+                Id = Convert.ToInt32(dataTable.Rows[0]["id"]),
+                StoreId = Convert.ToInt32(dataTable.Rows[0]["store_id"]),
+                TransactionDateTime = Convert.ToDateTime(dataTable.Rows[0]["transaction_datetime"]),
+                Type = (TransactionType)Enum.Parse(typeof(TransactionType),
+                    dataTable.Rows[0]["transaction_type"].ToString()),
+                TransactionAmount = Convert.ToInt32(dataTable.Rows[0]["transaction_amount"])
+            };
+
+            return transactionData;
         }
 
         public EmployeeData GetEmployeeByStoreId(int storeId)
@@ -390,7 +430,7 @@ namespace Infrastructure.Services.DataBase
             ExecuteNonQuery(query);
         }
 
-        public void AddTransaction(int storeId, TransactionData.TransactionType type, int totalPrice)
+        public void AddTransaction(int storeId, TransactionType type, int totalPrice)
         {
             var query =
                 "INSERT INTO Transactions (store_id, transaction_datetime, transaction_type, transaction_amount) " +
@@ -415,8 +455,15 @@ namespace Infrastructure.Services.DataBase
 
             var dataTable = new DataTable();
 
-            dataTable.Load(reader);
-
+            try
+            {
+                dataTable.Load(reader);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
+            
             return dataTable;
         }
 
