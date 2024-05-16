@@ -24,6 +24,7 @@ namespace Infrastructure
                 new InitializationState(this, assetsAddressablesProvider, dataBaseService, marketService),
                 new ResourcesLoadingState(this, windowService),
                 new GameMainMenuState(this, windowService),
+                new ManagerState(this, windowService, dataBaseService),
                 new GameplayState(this, windowService, dataBaseService, npcFactory, marketService, gameplaySceneData)
             );
 

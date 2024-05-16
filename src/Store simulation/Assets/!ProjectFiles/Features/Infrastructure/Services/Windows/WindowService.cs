@@ -23,7 +23,7 @@ namespace Infrastructure.Services.Windows
         public async Task<T> OpenAndGetComponent<T>(WindowID windowID) where T : Component
         {
             await OpenWindow(windowID);
-            
+
             var component = _uiFactory.GetScreenComponent<T>(windowID).Result;
 
             return component;
@@ -39,13 +39,16 @@ namespace Infrastructure.Services.Windows
                 case WindowID.None:
                     break;
                 case WindowID.Loading:
-                    await _uiFactory.CreateScreen(AssetsAddressableConstants.LOADING_SCREEN, WindowID.Loading);
+                    await _uiFactory.CreateScreen(AssetsAddressableConstants.LOADING_SCREEN, windowID);
                     break;
                 case WindowID.MainMenu:
-                    await _uiFactory.CreateScreen(AssetsAddressableConstants.MAIN_MENU_SCREEN, WindowID.MainMenu);
+                    await _uiFactory.CreateScreen(AssetsAddressableConstants.MAIN_MENU_SCREEN, windowID);
                     break;
                 case WindowID.Gameplay:
-                    await _uiFactory.CreateScreen(AssetsAddressableConstants.GAMEPLAY_SCREEN, WindowID.Gameplay);
+                    await _uiFactory.CreateScreen(AssetsAddressableConstants.GAMEPLAY_SCREEN, windowID);
+                    break;
+                case WindowID.Manager:
+                    await _uiFactory.CreateScreen(AssetsAddressableConstants.MANAGER_SCREEN, windowID);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(windowID), windowID, null);
@@ -57,22 +60,15 @@ namespace Infrastructure.Services.Windows
         {
             switch (windowID)
             {
-                case WindowID.Unknown:
-                    Debug.Log("Unknown window id + " + windowID);
-                    break;
-                case WindowID.None:
-                    break;
                 case WindowID.Loading:
-                    _uiFactory.DestroyScreen(WindowID.Loading);
-                    break;
                 case WindowID.MainMenu:
-                    _uiFactory.DestroyScreen(WindowID.MainMenu);
-                    break;
                 case WindowID.Gameplay:
-                    _uiFactory.DestroyScreen(WindowID.Gameplay);
+                case WindowID.Manager:
+                    _uiFactory.DestroyScreen(windowID);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(windowID), windowID, null);
+                    Debug.Log("Unknown window id + " + windowID);
+                    break;
             }
         }
     }

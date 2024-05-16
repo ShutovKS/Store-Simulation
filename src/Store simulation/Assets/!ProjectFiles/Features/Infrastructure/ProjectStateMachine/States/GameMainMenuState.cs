@@ -32,8 +32,8 @@ namespace Infrastructure.ProjectStateMachine.States
             mainMenuScreen.RunSimulationButton.OnClickAsObservable().Subscribe(_ =>
                 Initializer.StateMachine.SwitchState<GameplayState>()).AddTo(_disposable);
             mainMenuScreen.ExitButton.OnClickAsObservable().Subscribe(_ => Quit()).AddTo(_disposable);
-            // mainMenuScreen.StatisticsButton.OnClickAsObservable().Subscribe(_ =>
-                // Initializer.StateMachine.SwitchState<StatisticsState>()).AddTo(_disposable);
+            mainMenuScreen.ManagerButton.OnClickAsObservable().Subscribe(_ =>
+                Initializer.StateMachine.SwitchState<ManagerState>()).AddTo(_disposable);
 
             _windowService.Close(WindowID.Loading);
         }

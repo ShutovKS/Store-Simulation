@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 7057726817955094219}
   - component: {fileID: 5483204564681399989}
   m_Layer: 5
-  m_Name: Statistics
+  m_Name: Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -317,7 +317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buttons: []
   <RunSimulationButton>k__BackingField: {fileID: 3302612002051054272}
-  <StatisticsButton>k__BackingField: {fileID: 5483204564681399989}
+  <ManagerButton>k__BackingField: {fileID: 5483204564681399989}
   <ExitButton>k__BackingField: {fileID: 324568113160883772}
 --- !u!1 &1275522975150949825
 GameObject:
@@ -976,7 +976,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Statistics
+  m_text: Manager
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
